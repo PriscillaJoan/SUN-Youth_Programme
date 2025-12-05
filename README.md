@@ -37,9 +37,6 @@ Install pandas with:
 ```bash
 pip install pandas
 
-Install pandas with:
-pip install pandas
-
 ## Usage
 
 ### 1. Navigate to the folder containing the scripts:
@@ -63,7 +60,7 @@ This will:
 
 ## Notes
 
-- Ensure the sample_data.csv file is located in the sample_data/ folder
+- Ensure the sample_data.csv file is located in the sample_data folder
 - Make sure your Python environment has pandas installed
 - Scripts are modular: functions from clean_and_validate_sessions.py can be imported for further analysis
 ```
@@ -88,72 +85,169 @@ While the current scripts handle data validation, cleaning, and summary statisti
    - Purpose: Ensures training content is suitable for the participants’ capacities and developmental needs.
 
 4. **Next of Kin / Emergency Contact Information**
+   - Important for handling minors safely.
+    
+5. **Performance metrics**
+   - Track participants’ performance throughout the training.
+
+
+# Data Collection Requirements
+
+To support the above, additional data needs to be collected:
+
+- Next of Kin (NOK) CSV:
+  - Fields: participant_id, NOK name, NOK phone
+  - Purpose: Links minors to their emergency contacts.
+
+- Additional  Participant Information:
+  - Fields: Level of education, village, occupation
+  - Purpose:Tracking participant distribution geographically and to help tailor training content based on education level
+
+- Participant Performance CSV:
+  - Fields: participant_id, pre-assessment score, post-assessment score, trainer’s initial confidence level
+  - Purpose: Monitors participant progress and effectiveness of training sessions.
+ 
+ 
+ # NEXT STEPS
+In the next step, a demonstration will show how all this information can be used to enhance analysis and decision-making.
 
 ## Minor Improvments
+After creating the Python validation scripts, I realized I had several limitations:
 
-I used project leverages **dbt (data build tool)** in combination with **Snowflake** to build a structured and reproducible data pipeline for the SUN Youth Programme. All the folders are in the ***MINOR IMPROVEMENTS**
+- Data was in CSV files, which made it hard to query and join for more complex analysis.  
+- Running the scripts manually meant it was hard to reproduce the exact same results every time.  
+- It was difficult to track participants across multiple dimensions.  
+- Additional data relationships were limited, and I had to manually check data quality.
+
+To solve these issues, the project now uses **dbt (Data Build Tool)** together with **Snowflake**:
+
+- **dbt** helps create a structured and reproducible pipeline. It automatically tracks dependencies between tables, runs transformations in the right order, and makes it easy to test data quality.  
+- **Snowflake** stores all the data in one central place, so everyone can query the same source of truth without relying on CSV files.
+  
+Even though Python scripts are still useful for cleaning and processing, dbt + Snowflake makes the whole system more reliable, easier to reproduce, and ready for more advanced analysis.  
+
+All additional files used for this improved workflow are in the **MINOR IMPROVEMENTS** folder.
 
 
-I used dbt and snowflake to demonstrate best practices in working with databases, ensuring **reproducibility**, **clarity**, and **modular design**.
 
 ## Data Sources and Seeds
+```SUN_YOUTH_PROGRAMME/
+├── Minor_Improvements/
+│   └── logs/
+├── new_data/
+│   ├── next_of_kin.csv
+│   ├── participants_info.csv
+│   └── participants_performance_metric.csv
+└── Sun_youth_dbt/
+    ├── analyses/
+    ├── logs/
+    ├── macros/
+    │   ├── .gitkeep
+    │   └── generate_schema_name.sql
+    ├── models/
+    │   ├── marts/
+    │   │   ├── minor_participants.sql
+    │   │   └── participants_performance.sql
+    │   └── staging/
+    │       ├── minors.sql
+    │       ├── participants_post_assessment.sql
+    │       └── sources.yml
+    ├── seeds/
+    │   ├── .gitkeep
+    │   ├── next_of_kin.csv
+    │   └── participants_performance_metric.csv
+    ├── snapshots/
+    └── tests/
+        ├── .gitkeep
+        ├── minor_nok_data_check.sql
+        └── participants_score_check.sql
+```
+        
+## Data Pipeline Architecture
 
-- **Seeds:**  
-  - `participants_performance_metric` – contains pre- and post-assessment scores and pre confidence levels for participants.  
-  - `next_of_kin` – contains next-of-kin information for minor participants.  
+- **Seeds:(Raw Data)**
+  
+They are CSV files containing foundational data loaded directly into the database.
 
-These seeds were used to create new staging tables and views for further analysis.
+  - `participants_performance_metric` :  contains pre- and post-assessment scores and pre confidence levels for participants.  Used to track participant progress throughout the programme
+    
+  - `next_of_kin` : Contains emergency contact information for minor participants (under 20 years old) which is the next-of-kin name and phone number which is critical for safeguarding and emergency communication
+  
 
 ## Staging Layer (L2 Processing)
 
-- **Minors:** Identifies participants under the age of 20 from the participants’ information.  
-- **Participants Post Assessment:** Calculates improvement metrics, including percentage improvement and post-assessment confidence levels from the parrticipants performancee metric.  
-
 These staging models prepare and clean the raw data, ensuring that downstream models have structured, reliable inputs.
 
+- `minors.sql`:  Identifies participants under the age of 20 from the participants’ information to provide a clean dataset of minor participants for safeguarding and reporting purposes
+- `participants_post_assessment.sql`: Computes percentage improvement between pre- and post-assessments including percentage improvement and post-assessment and derives post-assessment confidence levels 
+
+
+
 ## Marts Layer (L3 Consumption)
-
-- **Minor Participants:** Combines data from the staging layer to produce a table containing all minor participants and their next-of-kin information.  
-- **Participants Performance:** Integrates participant information with their assessment metrics, providing a complete view of participant performance.
-
 This layer creates final tables ready for analytics, reporting, or visualization.
+
+- `minor_participants.sql` Combines minor participant data with their next-of-kin information,providing a complete view of all minor participants and their emergency contacts
+  
+- `participants_performance.sql`: Integrates participant information with their assessment metrics, providing a complete view of participant performance.
+
 
 ## Macros
 
 - A macro (`generate_schema_name`) was added to dynamically control schema names for models. This ensures that models are created in the correct schema while maintaining flexibility and consistency across different environments.
 
-## Key Points
-
-- **Reproducibility:** Using dbt ensures that models can be recreated consistently, with all dependencies tracked automatically via `ref()` and `source()`.  
-- **Modularity:** Staging models clean and transform raw data; marts aggregate and combine data for analytics.  
-- **Documentation:** Sources, models, and seeds are documented to provide clarity on their purpose and lineage.
-
 ## Data Quality and Testing
+Automated tests to ensure data integrity and catch issues before they impact reporting.
 
-To ensure data integrity and maintain high-quality outputs, the following **dbt tests** have been implemented:
+1. `minor_nok_data_check.sql`
+   - This test checks that all minor participants have complete next-of-kin information recorded.
+   - Any minor participant missing NOK information will fail this test,  ensuring compliance with safeguarding requirements.
 
-1. **Minor nok data check**
-   - This test checks that all minor participants have **next-of-kin (NOK) name and phone number** recorded.  
-   - Any minor participant missing NOK information will fail this test, ensuring that all critical contact details are captured for reporting and follow-up.
-
-2. **Participants score check**  
-   - This test ensures that all participants have a **post-assessment score of 50 or higher**.  
-   - Any participant with a score below 50 will fail the test,this is to ensure that we are following up on the performance of our partcipants.
-
-These tests are run using dbt’s testing framework, combining **built-in column-level tests** and **custom SQL tests**. They provide automated data validation, helping to detect and prevent inconsistencies or missing critical information in the pipeline.
+2. `participants_score_check.sql`
+   - Ensures participants meet minimum performance standards. All participants must achieve a post-assessment score of 50 or higher
+   - This helps to identify participants requiring additional support or follow-up intervention.
 
 **Running the tests:**  
 
 ## Running the Project
 
-1. Load seeds:  
+1. Load seeds:
+   - Load CSV data into the database:
    ```bash
    dbt seed
+   
+3. Run Models
+- Execute all transformations (staging and marts):
+```bash
+ dbt run
+```
 
-   - Collect additional data such as name, age, address, and occupation of a participant’s next of kin.
-   - Purpose: Provides background context on participants and a reliable contact in case of emergencies or difficulty reaching the participant.
+3. Run Tests
+- Validate additional data quality
+```bash
+dbt test
+```
+4. Generate Documentation
+- Create and view project documentation
+```bash
+dbt docs generate
+dbt docs serve
+```
+### Key Features & Benefits
 
-### Assumptions
+**Reproducibility**
+- All transformations are version-controlled and automated through dbt
+- Dependencies are tracked automatically using ref() and source() functions
+- Anyone can recreate the entire pipeline with a single command
+
+**Modularity**
+- Staging models handle data cleaning and transformation
+- Marts aggregate and combine data for specific analytical purposes
+- Changes to one layer don't break downstream dependencies
+- 
+**Data Quality**
+- Automated testing prevents bad data from reaching reports
+- 
+ ### Assumptions
 - Participants provide accurate personal information.
 - Reasons for absence are optional but recommended for better program insights.
 - Age and education levels guide content planning for training sessions.
