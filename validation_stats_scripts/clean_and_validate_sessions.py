@@ -118,15 +118,11 @@ if __name__ == "__main__":
 
         
         # display results
-        print("=" * 80)
         print("CLEANED DATA (Valid Records Only)")
-        print("=" * 80)
         print(f"\nTotal valid records: {len(cleaned_data)}")
         print(cleaned_data.to_string(index=True))
 
-        print("\n" + "=" * 80)
         print("ERROR LOG (Invalid Records)")
-        print("=" * 80)
         print(f"\nTotal errors found: {len(error_log)}")
         if len(error_log) > 0:
             print(error_log.to_string(index=False))
