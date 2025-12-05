@@ -37,8 +37,6 @@ Install pandas with:
 ```bash
 pip install pandas
 
-## Usage
-
 ### 1. Navigate to the folder containing the scripts:
 cd validation_stats_scripts
 
