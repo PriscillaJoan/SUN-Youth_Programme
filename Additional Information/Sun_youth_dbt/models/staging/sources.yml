@@ -1,0 +1,20 @@
+sources:
+  - name: staging
+    schema: l2_PROCESSING
+    description: "Tables manually created in Snowflake for L2 processing"
+    tables:
+      - name: minors
+        description: "All participants under the age of 20"
+      - name: participants_post_assessment
+        description: "overall performance after post assessment test" 
+      - name: participants_info
+        description: "information about the participants" 
+        
+  - name: marts
+    schema: l3_CONSUMPTION
+    description: "Final data used in visualization"
+    tables:
+      - name: minor_participants
+        description: "participants under the age of 20,together with next of kin information"
+      - name: participants_performance
+        description: "tracks participants progress and refences to the performance data"

@@ -1,0 +1,8 @@
+participant_id,pre_assessment_score,post_assessment_score,pre_confidence_level
+SUN10002,40,70,Beginner
+SUN10004,35,60,Beginner
+SUN10005,60,85,Intermediate
+SUN10006,50,75,Intermediate
+SUN10007,45,65,Beginner
+SUN10008,70,90,Intermediate
+SUN10009,55,80,Intermediate

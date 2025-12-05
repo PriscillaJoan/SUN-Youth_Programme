@@ -1,0 +1,8 @@
+participant_id,name,phone,age,gender,attendance,session_date,session_topic,reason_for_absence,education_level,occupation,villages
+SUN10002,Johnson Mutoro,712222333,15,Male,Present,11/5/2025,Introduction to Computers,,Secondary,,Laini Saba
+SUN10004,Grace Atieno,722456754,14,Female,Absent,11/12/2025,Basic Typing Skills,Sick,Primary,,Makina
+SUN10005,Purity Akinyi,788765789,33,Female,Present,11/19/2025,Basic Typing Skills,,Tertiary,Cook,Kisumu Ndogo
+SUN10006,Louiza Amimo,726780700,28,Female,Absent,11/19/2025,Digital Creativity,Travel,Tertiary,Hawker,Gatwekera
+SUN10007,Benson Kigera,254735000000,26,Male,Absent,11/26/2025,Digital Creativity,Personal,Secondary,Driver,Laini Saba
+SUN10008,Yvonne Lilly,780345678,35,Female,Present,11/26/2025,Communication Skills,,Tertiary,House Keeper,Makina
+SUN10009,Frank Kiptoo,723546768,22,Male,Present,12/2/2025,Communication Skills,,Secondary,Vendor,Kisumu Ndogo
