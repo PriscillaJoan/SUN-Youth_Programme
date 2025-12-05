@@ -206,32 +206,6 @@ Automated tests to ensure data integrity and catch issues before they impact rep
    - Ensures participants meet minimum performance standards. All participants must achieve a post-assessment score of 50 or higher
    - This helps to identify participants requiring additional support or follow-up intervention.
 
-**Running the tests:**  
-
-## Running the Project
-
-1. Load seeds:
-   - Load CSV data into the database:
-   ```bash
-   dbt seed
-   
-3. Run Models
-- Execute all transformations (staging and marts):
-```bash
- dbt run
-```
-
-3. Run Tests
-- Validate additional data quality
-```bash
-dbt test
-```
-4. Generate Documentation
-- Create and view project documentation
-```bash
-dbt docs generate
-dbt docs serve
-```
 ### Key Features & Benefits
 
 **Reproducibility**
@@ -252,4 +226,49 @@ dbt docs serve
 - Reasons for absence are optional but recommended for better program insights.
 - Age and education levels guide content planning for training sessions.
 
+# How to Run This Project
+1. **Clone the repository**
+   ```bash
+   git clone <https://github.com/PriscillaJoan/SUN-Youth_Programme>
+   cd SUN_YOUTH_PROGRAMME
+   
+**Running the tests:**  
+1. Create & Activate a virtual enviroment
+```
+python -m venv env
+source env/bin/activate       # Mac/Linux
+env\Scripts\activate          # Windows
+```
+2. Install dependancies
+  ```
+  pip install pandas
+  pin install dbt
+  pip install dbt_snowflake
+```
+3. Initiate DBT
+```
+ dbt init
+ dbt debug
+```
+4. Load seeds:
+   - Load CSV data into the database:
+   ```
+   dbt seed
+   
+5. Run Models
+- Execute all transformations (staging and marts):
+```bash
+ dbt run
+```
 
+6. Run Tests
+- Validate additional data quality
+```
+dbt test
+```
+7. Generate Documentation
+- Create and view project documentation
+```bash
+dbt docs generate
+dbt docs serve
+```
