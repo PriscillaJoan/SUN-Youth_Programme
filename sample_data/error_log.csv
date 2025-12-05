@@ -1,0 +1,4 @@
+row_number,participant_id,name,issues
+0,SUN510001,John Muvevi,Invalid participant_id format: SUN510001
+2,SUN10003,Wanjiru Karanu,Invalid phone format: 07123456
+9,SUN10010,Penny Gituku,Age out of range (10-35) or invalid: 9

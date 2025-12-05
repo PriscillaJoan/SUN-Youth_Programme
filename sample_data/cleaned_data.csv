@@ -1,0 +1,8 @@
+Unnamed: 0,participant_id,name,phone,age,gender,attendance,session_date,session_topic
+1,SUN10002,Johnson Mutoro,0712222333,15,Male,Present,2025-11-05,Introduction to Computers
+3,SUN10004,Grace Atieno,0722456754,14,Female,Absent,2025-11-12,Basic Typing Skills
+4,SUN10005,Purity Akinyi,0788765789,33,Female,Present,2025-11-19,Basic Typing Skills
+5,SUN10006,Louiza Amimo,0726780700,28,Female,Absent,2025-11-19,Digital Creativity
+6,SUN10007,Benson Kigera,+254734568900,26,Male,Absent,2025-11-26,Digital Creativity
+7,SUN10008,Yvonne Lilly,0780345678,35,Female,Present,2025-11-26,Communication Skills
+8,SUN10009,Frank Kiptoo,0723546768,22,Male,Present,2025-12-02,Communication Skills
