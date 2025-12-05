@@ -229,7 +229,9 @@ Automated tests to ensure data integrity and catch issues before they impact rep
 # How to Run This Project
 1. **Clone the repository**
    ```bash
-   git clone <https://github.com/PriscillaJoan/SUN-Youth_Programme>
+   git clone https://github.com/PriscillaJoan/SUN-Youth_Programme.git
+
+)
    cd SUN_YOUTH_PROGRAMME
    
 **Running the tests:**  
