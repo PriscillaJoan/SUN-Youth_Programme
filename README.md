@@ -120,7 +120,7 @@ After creating the Python validation scripts, I realized I had several limitatio
 To solve these issues, the project now uses **dbt (Data Build Tool)** together with **Snowflake**:
 
 - **dbt** helps create a structured and reproducible pipeline. It automatically tracks dependencies between tables, runs transformations in the right order, and makes it easy to test data quality.  
-- **Snowflake** stores all the data in one central place, so everyone can query the same source of truth without relying on CSV files.
+- **Snowflake** stores all the data in one central place, so everyone can query the same source without relying on CSV files.
   
 Even though Python scripts are still useful for cleaning and processing, dbt + Snowflake makes the whole system more reliable, easier to reproduce, and ready for more advanced analysis.  
 
