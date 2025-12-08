@@ -230,7 +230,7 @@ Automated tests to ensure data integrity and catch issues before they impact rep
    git clone https://github.com/PriscillaJoan/SUN-Youth_Programme.git
 
 )
-   cd SUN_YOUTH_PROGRAMME
+   cd Sun_youth_dbt
    
 **Running the tests:**  
 1. Create & Activate a virtual enviroment
